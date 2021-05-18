@@ -64,7 +64,11 @@ public class EnemySpawner : MonoBehaviour
                 newEnemy.GetComponent<EnemyAI>().SetPowerDelay(powerDelay);
                 newEnemy.GetComponent<EnemyAI>().powerCode = Random.Range(1,3);
                 newEnemy.GetComponent<EnemyAI>().powerDurationMax = powerDuration;
-                newEnemy.GetComponent<EnemyAI>().targetEnemy = PlayerController.Instance.spaceship;
+
+
+                if (PlayerController.Instance)
+                    newEnemy.GetComponent<EnemyAI>().targetEnemy = PlayerController.Instance.spaceship;
+                    
                 enemyList.Add(newEnemy.GetComponent<EnemyAI>().spaceship);
             }
         }

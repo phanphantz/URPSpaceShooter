@@ -31,12 +31,12 @@ public class PlayerController : MonoBehaviour
         return new Vector3( Random.Range(-horzExtent , horzExtent) , Random.Range(-vertExtent , vertExtent) , 0);
     }
 
-    bool onHoldTap()
+    (bool isHold , int id) onHoldTap()
     {
         if (fireDelayLeft > 0)
         {
             fireDelayLeft -= Time.deltaTime;
-            return false;
+            return (false , -1);
         }
 
         var fingerID = -1;
@@ -46,26 +46,26 @@ public class PlayerController : MonoBehaviour
         var notOverUI = !EventSystem.current.IsPointerOverGameObject(fingerID);
         if (Application.isEditor)
         {
-            return Input.GetMouseButton(0) && notOverUI;
+            return ( Input.GetMouseButton(0) && notOverUI , 0);
         }
 
         for (var i = 0 ; i < Input.touchCount ; i++)
         {
             if (!EventSystem.current.IsPointerOverGameObject(i))
-                return true;
+                return (true , i);
         }
 
-        return false;
+        return (false , -1);
     }
 
-    Vector3 tapPosition()
+    Vector3 tapPosition(int id)
     {
         if (Application.isEditor)
         {
             return camera.ScreenToWorldPoint(Input.mousePosition);
         }
 
-        return camera.ScreenToWorldPoint(Input.GetTouch(0).position);
+        return camera.ScreenToWorldPoint(Input.GetTouch(id).position);
     }
 
     private void Awake() 
@@ -82,6 +82,9 @@ public class PlayerController : MonoBehaviour
         if (spaceship == null)
             return;
 
+        var moveVector = new Vector3(joystick.Horizontal, joystick.Vertical , 0 );
+        MoveShip(moveVector);
+
         if (trackedEnemy && isTrackFire)
         {
             if (lockOnImage.enabled == false)
@@ -95,7 +98,8 @@ public class PlayerController : MonoBehaviour
                 lockOnImage.enabled = false;
         }
 
-        if (onHoldTap())
+        var hold = onHoldTap();
+        if (hold.isHold)
         {
             if (isTrackFire)
             {
@@ -108,17 +112,16 @@ public class PlayerController : MonoBehaviour
                     TrackFire(trackedEnemy.transform);
                 }
             }
-            else
+            else if (moveVector == Vector3.zero || Input.touchCount > 1 || Application.isEditor)
             {
-                var shootDir = (tapPosition() - spaceship.transform.position).normalized;
+                var shootDir = (tapPosition(hold.id) - spaceship.transform.position).normalized;
                 Fire(shootDir);
             }
             fireDelayLeft = fireDelayMax;
         }
         
 
-        var moveVector = new Vector3(joystick.Horizontal, joystick.Vertical , 0 );
-        MoveShip(moveVector);
+        
     }
 
     public void ResetTrackBullet()

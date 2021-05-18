@@ -6,7 +6,7 @@ public class Background : MonoBehaviour
 {
     public Vector3 respawnPoint;
     bool seen = false;
-    float speed = 0.05f;
+    float speed = 30f;
     void Start()
     {
         
@@ -15,7 +15,7 @@ public class Background : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position -= new Vector3(speed , 0 ,0);
+        transform.position -= new Vector3(speed * Time.deltaTime , 0 ,0);
     }
 
     private void OnBecameVisible() 

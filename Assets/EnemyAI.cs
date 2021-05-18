@@ -90,7 +90,7 @@ public class EnemyAI : MonoBehaviour
 
         if (fireDelayLeft <= 0)
         {
-            if (!targetEnemy.isInvisible)
+            if (targetEnemy && !targetEnemy.isInvisible)
             {
                 spaceship.Shoot((targetEnemy.transform.position - spaceship.transform.position).normalized);
                 fireDelayLeft = fireDelayMax;

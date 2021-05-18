@@ -59,7 +59,7 @@ public class Meteor : MonoBehaviour {
             sceneMode = SceneMode.gamePlay;
         }
 #else
-        string sceneName = Application.loadedLevelName; // code for unity below 5.3
+        // string sceneName = Application.loadedLevelName; // code for unity below 5.3
         // if (sceneName.name == "MainMenu")
         // {
         //     sceneMode = SceneMode.mainMenu;
