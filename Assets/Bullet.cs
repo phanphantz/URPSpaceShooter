@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public AudioClip shootClip;
+    public AudioClip explodeClip;
     public Rigidbody rigidbody;
     public SphereCollider collider;
     public int damage;
     public float speed;
     public Transform targetTransform;
     public bool fromPlayer;
-
+    public GameObject explodeEffect;
     public bool isTracked => targetTransform != null;
     private Vector3 moveVector;
     private bool isBlocked;
@@ -57,24 +59,30 @@ public class Bullet : MonoBehaviour
             rigidbody.velocity = moveVector;
         }
 
+
         // if (isBlocked)
         // {
 
         // }
     }
 
-    public void Fire(Vector3 dir)
+    public void Fire(Vector3 dir , float angle)
     {
+        LeanAudio.play(shootClip, 0.5f);
         moveVector = dir * speed;
+        transform.localEulerAngles = new Vector3(0 , 0 , angle);
     }
 
     public void Track(Transform targetTransform)
     {
+        LeanAudio.play(shootClip, 0.5f);
         this.targetTransform = targetTransform;
     }
 
     public void Explode()
     {
+        LeanAudio.play(explodeClip, 0.5f);
+        Instantiate(explodeEffect , transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

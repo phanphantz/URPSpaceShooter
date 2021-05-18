@@ -50,6 +50,9 @@ MonoBehaviour:
   targetEnemy: {fileID: 0}
   seeker: {fileID: 675649916}
   targetPosition: {x: 0, y: 0, z: 0}
+  powerCode: 1
+  powerDelayMax: 0
+  powerDurationMax: 0
 --- !u!114 &675649914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +176,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79e4c0d1647edb24e82e40e6b4bcaa7b, type: 3}
+--- !u!23 &2491714924891957430 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 23718787820125050, guid: 79e4c0d1647edb24e82e40e6b4bcaa7b, type: 3}
+  m_PrefabInstance: {fileID: 2504033937416524748}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5411047340524505863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -256,6 +264,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3279214699396447489, guid: 425181a0a1527ae4a8f2333b7366be26, type: 3}
+      propertyPath: renderer
+      value: 
+      objectReference: {fileID: 2491714924891957430}
+    - target: {fileID: 3279214699396447489, guid: 425181a0a1527ae4a8f2333b7366be26, type: 3}
+      propertyPath: normalMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: b172b3eb38b7df64eb5c8a08420eea34, type: 2}
     - target: {fileID: 4991973572151324064, guid: 425181a0a1527ae4a8f2333b7366be26, type: 3}
       propertyPath: m_Name
       value: Spaceship
@@ -279,6 +295,10 @@ PrefabInstance:
     - target: {fileID: 5624461804040201242, guid: 425181a0a1527ae4a8f2333b7366be26, type: 3}
       propertyPath: m_Center.y
       value: 0.005289763
+      objectReference: {fileID: 0}
+    - target: {fileID: 6830431722433502179, guid: 425181a0a1527ae4a8f2333b7366be26, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8124241261543792656, guid: 425181a0a1527ae4a8f2333b7366be26, type: 3}
       propertyPath: m_Enabled

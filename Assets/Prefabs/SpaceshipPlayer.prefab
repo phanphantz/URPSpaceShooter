@@ -273,6 +273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64e4fa4e5de5a4e4a936fddb73885a8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explodeClip: {fileID: 8300000, guid: 7cb34501868d60240ad74d13fe92a95a, type: 3}
+  shieldClip: {fileID: 8300000, guid: bb9c7f91d9baf654abdc8717976612c3, type: 3}
+  cloakClip: {fileID: 8300000, guid: bb9c7f91d9baf654abdc8717976612c3, type: 3}
+  explodeEffect: {fileID: 155082, guid: f2c99a7a0d01a3a4ba22d71d44365e92, type: 3}
   state: 0
   stateDuration: 10
   bulletPrefab: {fileID: 5463049897097040765, guid: 9df66a18cf5d4264fb3a74fc052b1c49, type: 3}

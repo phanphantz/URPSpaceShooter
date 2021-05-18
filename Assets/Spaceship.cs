@@ -9,7 +9,10 @@ public class Spaceship : MonoBehaviour
    {
       Normal, Shield, Cloak
    }
-
+   public AudioClip explodeClip;
+   public AudioClip shieldClip;
+   public AudioClip cloakClip;
+   public GameObject explodeEffect;
    public State state;
    public float stateDuration;
 
@@ -54,6 +57,7 @@ public class Spaceship : MonoBehaviour
 
    public void TakeDamage(int damage)
    {
+      Instantiate(explodeEffect , transform.position, Quaternion.identity);
       if (isDead || isInvincible)
          return;
 
@@ -73,8 +77,9 @@ public class Spaceship : MonoBehaviour
       var angle = Mathf.Atan2(dir.y , dir.x) * Mathf.Rad2Deg;
       gunTransform.localEulerAngles = new Vector3(0 , 0 , angle);
       var bullet = Instantiate(bulletPrefab, bulletFireTransform.position, Quaternion.identity);
+      bullet.transform.localScale = Vector3.one * 0.3f;
       bullet.fromPlayer = isPlayer;
-      bullet.Fire(dir);
+      bullet.Fire(dir , angle);
    }
 
    public void TrackShoot(Transform targetTransform)
@@ -83,6 +88,7 @@ public class Spaceship : MonoBehaviour
       var angle = Mathf.Atan2(dir.y , dir.x) * Mathf.Rad2Deg;
       gunTransform.localEulerAngles = new Vector3(0 , 0 , angle);
       var bullet = Instantiate(bulletPrefab, bulletFireTransform.position, Quaternion.identity);
+      bullet.transform.localScale = Vector3.one * 0.3f;
       bullet.fromPlayer = isPlayer;
       bullet.Track(targetTransform);
    }
@@ -116,6 +122,8 @@ public class Spaceship : MonoBehaviour
 
    public void Explode()
    {
+      LeanAudio.play(explodeClip, 0.5f);
+      Instantiate(explodeEffect , transform.position, Quaternion.identity);
       rigidbody.useGravity = true;
       collider.enabled = false;
       isDead = true;
@@ -161,6 +169,7 @@ public class Spaceship : MonoBehaviour
       if (!DrainEnergy(shieldEnergyUse))
          return;
 
+        LeanAudio.play(shieldClip, 0.5f);
       shieldObject.SetActive(true);
       stateTimeLeft = stateDuration;
       isInvincible = true;
@@ -172,6 +181,7 @@ public class Spaceship : MonoBehaviour
        if (!DrainEnergy(cloakEnergyUse))
          return;
 
+        LeanAudio.play(cloakClip, 0.5f);
       renderer.material = cloakMaterial;
       stateTimeLeft = stateDuration;
       isInvisible = true;
@@ -199,14 +209,14 @@ public class Spaceship : MonoBehaviour
    private void OnTriggerEnter(Collider other) 
    {
       var spaceShip = other.GetComponent<Spaceship>();
-      if (spaceShip != null)
+      if (spaceShip != null && (spaceShip.isPlayer || isPlayer))
       {
          TakeDamage(30);
          return;
       }
 
       var debris = other.GetComponent<Debris>();
-      if (debris)
+      if (debris && isPlayer)
          TakeDamage(30);
    }
 

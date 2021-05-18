@@ -17,6 +17,19 @@ public class EnemyAI : MonoBehaviour
     private List<Vector3> pathList = new List<Vector3>();
     private bool seeking;
 
+    public int powerCode = 1;
+
+    public float powerDelayMax;
+    private float powerDelay;
+    public float powerDurationMax;
+    private float powerDuration;
+
+    public void SetPowerDelay(float value)
+    {
+        powerDelayMax = value;
+        powerDelay = Random.Range(0 , value);
+    }
+
     private void Awake() 
     {
         targetPosition = spaceship.transform.position;
@@ -28,6 +41,33 @@ public class EnemyAI : MonoBehaviour
         {
            EnemySpawner.Instance.enemyList.Remove(spaceship);
            enabled = false;
+        }
+
+        if (powerDelay > 0)
+        {
+            powerDelay -= Time.deltaTime;
+        }
+        else if (powerDuration <= 0)
+        {
+            powerDuration = powerDurationMax;
+            if (powerCode == 1)
+            {
+                spaceship.ActivateCloak();
+            }
+            else if (powerCode == 2)
+            {
+                spaceship.ActivateShield();
+            }
+            powerDelay = 0;
+        }
+        else if (powerDuration > 0)
+        {
+            powerDuration -= Time.deltaTime;
+        }
+        else if (powerDelay <= 0)
+        {
+            spaceship.ResetState();
+            powerDelay = powerDelayMax;
         }
 
         if (targetPosition == spaceship.transform.position)
